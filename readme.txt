@@ -12,7 +12,7 @@ Add an iCal feed to your site for the Events Calendar plugin
 
 Creates an iCal feed for [Events Calendar](http://www.lukehowell.com/events-calendar).
 
-Based on [Gary King’s iCal Posts](http://www.kinggary.com/archives/build-an-ical-feed-from-your-wordpress-posts-plugin) and modifications by [Electronest](http://electronest.com).
+Based on [Gary King's iCal Posts](http://www.kinggary.com/archives/build-an-ical-feed-from-your-wordpress-posts-plugin) and modifications by [Electronest](http://electronest.com).
 
 Feed will be at http://your-web-address/?ical
 

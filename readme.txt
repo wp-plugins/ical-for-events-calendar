@@ -1,6 +1,5 @@
 === iCal for Events Calendar ===
 Contributors: YukataNinja
-Donate link: http://mark.inderhees.net
 Tags: ical, events calendar, ec, ical feed, feed, icalendar, calendar, events, event, subscribe
 Requires at least: 2.6
 Tested up to: 2.7

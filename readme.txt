@@ -17,15 +17,11 @@ Feed will be at http://your-web-address/?ical
 
 == Installation ==
 
-Unzip in your plugins directory.
-Activate the plugin through the 'Plugins' menu in WordPress.
+1. Unzip in your plugins directory.
+1. Activate the plugin through the 'Plugins' menu in WordPress.
 
 == Frequently Asked Questions ==
 
 = Where is the feed located? =
 
 At http://your-web-address/?ical
-
-== Screenshots ==
-
-No screenshots

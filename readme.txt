@@ -26,7 +26,3 @@ Activate the plugin through the 'Plugins' menu in WordPress.
 = Where is the feed located? =
 
 At http://your-web-address/?ical
-
-== Screenshots ==
-
-No screenshots

@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: iCal for Events Calendar
-Plugin URI: http://mark.inderhees.net/ical
+Plugin URI: http://wordpress.org/extend/plugins/ical-for-events-calendar/
 Description: Creates an iCal feed for Events Calendar (http://www.lukehowell.com/events-calendar) at http://your-web-address/?ical. Based on Gary King's iCal Posts (http://www.kinggary.com/archives/build-an-ical-feed-from-your-wordpress-posts-plugin) and modifications by Electronest (http://electronest.com).
 Version: 1.0
 Author: Mark Inderhees

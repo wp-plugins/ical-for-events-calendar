@@ -2,8 +2,8 @@
 Contributors: YukataNinja
 Tags: ical, events calendar, ec, ical feed, feed, icalendar, calendar, events, event, subscribe
 Requires at least: 2.6
-Tested up to: 2.7
-Stable tag: 1.0
+Tested up to: 2.8.4
+Stable tag: 1.1
 
 Add an iCal feed to your site for the Events Calendar plugin
 
@@ -25,3 +25,16 @@ Feed will be at http://your-web-address/?ical
 = Where is the feed located? =
 
 At http://your-web-address/?ical
+
+== Updates ==
+
+<pre><code>
+Version 1.1
+	Added Location field
+	Added link field
+	Added option for long to show past events
+	Now meets RFC 2445 standards
+
+Version 1.0
+	Original Version
+</code></pre>

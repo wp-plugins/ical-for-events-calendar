@@ -3,7 +3,7 @@
 Plugin Name: iCal for Events Calendar
 Plugin URI: http://wordpress.org/extend/plugins/ical-for-events-calendar/
 Description: Creates an iCal feed for Events Calendar (http://www.lukehowell.com/events-calendar) at http://your-web-address/?ical. Based on Gary King's iCal Posts (http://www.kinggary.com/archives/build-an-ical-feed-from-your-wordpress-posts-plugin) and modifications by Jerome (http://capacity.electronest.com/ical-for-ec-event-calendar/).
-Version: 1.1
+Version: 1.1.1
 Author: Mark Inderhees
 Author URI: http://mark.inderhees.net
 
@@ -99,29 +99,31 @@ function iCalFeed()
 		$description = str_replace(",", "\,", $description);
 		$description = str_replace("\\", "\\\\", $description);
 		$description = str_replace("\n", $space, strip_tags($description));
+		$description = str_replace("\r", $space, strip_tags($description));
 		$location = $post->eventLocation;
 		$link = $post->eventLinkout;
 
 		$uid = $post->id . "@" . get_bloginfo('home');
 
-		$events .= "BEGIN:VEVENT\n";
-		$events .= "UID:" . $uid . "\n";
-		$events .= "DTSTART:" . $eventStart . "\n";
-		$events .= "DTEND:" . $eventEnd . "\n";
-		$events .= "LOCATION:" . $location . "\n";
-		$events .= "SUMMARY:" . $summary . "\n";
+		$events .= "BEGIN:VEVENT\r\n";
+		$events .= "UID:" . $uid . "\r\n";
+		$events .= "DTSTART:" . $eventStart . "\r\n";
+		$events .= "DTEND:" . $eventEnd . "\r\n";
+		$events .= "LOCATION:" . $location . "\r\n";
+		$events .= "SUMMARY:" . $summary . "\r\n";
 		if (is_null($link))
 		{
 			// no link out
-			$events .= "DESCRIPTION:" . $description . "\n";
+			$events .= "DESCRIPTION:" . $description . "\r\n";
 		}
 		else
 		{
 			// has link out
 			$events .= "DESCRIPTION;ALTREP=\"" . $link . "\":";
-			$events .= $description . "\n";
+			$events .= $description . "\r\n";
 		}
-		$events .= "END:VEVENT\n";
+		$events .= "END:VEVENT\r\n";
+		$events .= "\r\n";
 	}
 
 	$blogName = get_bloginfo('name');
@@ -133,14 +135,14 @@ function iCalFeed()
 		header('Content-Disposition: attachment; filename="iCal-EC.ics"');
 	}
 
-	$content = "BEGIN:VCALENDAR\n";
-	$content .= "VERSION:2.0\n";
-	$content .= "PRODID:-//" . $blogName . "//NONSGML v1.0//EN\n";
-	$content .= "X-WR-CALNAME:" . $blogName . "\n";
-	$content .= "X-ORIGINAL-URL:" . $blogURL . "\n";
-	$content .= "X-WR-CALDESC:Events for " . $blogName . "\n";
-	$content .= "CALSCALE:GREGORIAN\n";
-	$content .= "METHOD:PUBLISH\n";
+	$content = "BEGIN:VCALENDAR\r\n";
+	$content .= "VERSION:2.0\r\n";
+	$content .= "PRODID:-//" . $blogName . "//NONSGML v1.0//EN\r\n";
+	$content .= "X-WR-CALNAME:" . $blogName . "\r\n";
+	$content .= "X-ORIGINAL-URL:" . $blogURL . "\r\n";
+	$content .= "X-WR-CALDESC:Events for " . $blogName . "\r\n";
+	$content .= "CALSCALE:GREGORIAN\r\n";
+	$content .= "METHOD:PUBLISH\r\n";
 	$content .= $events;
 	$content .= "END:VCALENDAR";
 

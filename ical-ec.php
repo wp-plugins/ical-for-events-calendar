@@ -1,9 +1,9 @@
-﻿<?php
+<?php
 /*
 Plugin Name: iCal for Events Calendar
 Plugin URI: http://wordpress.org/extend/plugins/ical-for-events-calendar/
 Description: Creates an iCal feed for Events Calendar (http://www.lukehowell.com/events-calendar) at http://your-web-address/?ical. Based on Gary King's iCal Posts (http://www.kinggary.com/archives/build-an-ical-feed-from-your-wordpress-posts-plugin) and modifications by Jerome (http://capacity.electronest.com/ical-for-ec-event-calendar/).
-Version: 1.0
+Version: 1.1
 Author: Mark Inderhees
 Author URI: http://mark.inderhees.net
 
@@ -22,6 +22,8 @@ You can see a copy of GPL at <http://www.gnu.org/licenses/>
 ---------------------------------------------------------------------
 */
 
+include_once(dirname(__FILE__) . "/ical-ec-admin.php");
+
 function iCalFeed()
 {
 	global $wpdb;
@@ -32,10 +34,17 @@ function iCalFeed()
 	}
 
 	$queryEvents = "SELECT id, eventTitle, eventDescription, eventLocation, ";
-	$queryEvents .= "eventStartDate, eventStartTime, eventEndDate, ";
-	$queryEvents .= "eventEndTime ";
+	$queryEvents .= "eventLinkout, eventStartDate, eventStartTime, ";
+	$queryEvents .= "eventEndDate, eventEndTime ";
 	$queryEvents .= "FROM wp_eventscalendar_main ";
 	$queryEvents .= "WHERE accessLevel='public' AND id > 0 ";
+	if (!is_null(get_option("ical-ec-history-length-months")))
+	{
+		$historyLengthMonths = get_option("ical-ec-history-length-months");
+		$limitDate = strtotime("-" . $historyLengthMonths . " month");
+		$limitDate = date("Y-m-d", $limitDate);
+		$queryEvents .= "AND eventStartDate >= '" . $limitDate . "' ";
+	}
 	$queryEvents .= "ORDER BY eventStartDate DESC";
 
 	$posts = $wpdb->get_results($queryEvents);
@@ -90,6 +99,8 @@ function iCalFeed()
 		$description = str_replace(",", "\,", $description);
 		$description = str_replace("\\", "\\\\", $description);
 		$description = str_replace("\n", $space, strip_tags($description));
+		$location = $post->eventLocation;
+		$link = $post->eventLinkout;
 
 		$uid = $post->id . "@" . get_bloginfo('home');
 
@@ -97,8 +108,19 @@ function iCalFeed()
 		$events .= "UID:" . $uid . "\n";
 		$events .= "DTSTART:" . $eventStart . "\n";
 		$events .= "DTEND:" . $eventEnd . "\n";
+		$events .= "LOCATION:" . $location . "\n";
 		$events .= "SUMMARY:" . $summary . "\n";
-		$events .= "DESCRIPTION:" . $description . "\n";
+		if (is_null($link))
+		{
+			// no link out
+			$events .= "DESCRIPTION:" . $description . "\n";
+		}
+		else
+		{
+			// has link out
+			$events .= "DESCRIPTION;ALTREP=\"" . $link . "\":";
+			$events .= $description . "\n";
+		}
 		$events .= "END:VEVENT\n";
 	}
 
@@ -133,6 +155,10 @@ function iCalFeed()
 	exit;
 }
 
+add_action("admin_menu", "ical_ec_option_menu_init");
+add_filter(
+	"plugin_action_links_" . plugin_basename(__FILE__),
+	"ical_ec_action_links"); 
 if (isset($_GET['ical']))
 {
 	add_action('init', 'iCalFeed');
